@@ -77,7 +77,7 @@ public class myHttpServer
             myServer.createContext("/date", new CommandHandler(cmd));
 
             cmd = new LinkedList<>();
-            cmd.add("ifconfig");
+            cmd.add("ipconfig");
             cmd.add("-a");
             myServer.createContext("/ifconfig", new CommandHandler(cmd));
 

@@ -3,7 +3,7 @@ package watchmen.starter;
 public enum BOARD {
 	BOARDA(new String[] { "proca", "procb", "procc", "procd",
 			"lockcontrolsoftware" }),
-	BOARDB(new String[] { "", "", "" }), BOARDDEFAULT(new String[] { "", "", "" });
+	BOARDB(new String[] { "", "", "" }), BOARDDEFAULT(new String[] { });
 
 	private final String[] pids;
 
