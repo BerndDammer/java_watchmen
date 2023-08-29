@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-@SuppressWarnings("restriction")
 public class CommandHandler implements HttpHandler
 {
     private final Logger logger = Logger.getAnonymousLogger();
@@ -20,7 +19,7 @@ public class CommandHandler implements HttpHandler
     
     private StreamBuffer sb = new StreamBuffer();
 
-    public CommandHandler(List<String> command)
+    public CommandHandler(final List<String> command)
     {
         this.command = command;
         pb = new ProcessBuilder(command);
@@ -32,17 +31,19 @@ public class CommandHandler implements HttpHandler
         try
         {
             Process pp = pb.start();
-            InputStream is = pp.getInputStream();
+            final InputStream consoleOutput = pp.getInputStream();
+            final InputStream consoleErrorOutput = pp.getErrorStream();
+
             sb.reset();
-            PrintStream p = sb.getPrintStream();
+            final PrintStream p = sb.getPrintStream();
             p.println("---- Executing command --- " + command + " ----");
             p.println("****** OUTPUT ******");
             p.flush();
-            sb.appendFromInputStream( is );
+            sb.appendFromInputStream( consoleOutput );
             p.println("AAAA OUTPUT AAAAA");
             p.println("****** ERROR ******");
             p.flush();
-            sb.appendFromInputStream( pp.getErrorStream() );
+            sb.appendFromInputStream( consoleErrorOutput );
             p.println("END  ERROR END");
             p.close();
         }

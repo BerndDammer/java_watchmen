@@ -3,8 +3,6 @@ package watchmen.statics;
 import java.io.IOException;
 import java.util.Properties;
 
-import wefwefwe.common;
-
 public class Forking
 {
     public static void doFork(String jarname)

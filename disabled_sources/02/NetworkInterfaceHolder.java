@@ -9,7 +9,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
 
-import wefwefwe.common;
+import watchmen.statics.IConst;
 
 public class NetworkInterfaceHolder
 {
@@ -32,7 +32,7 @@ public class NetworkInterfaceHolder
     public NetworkInterfaceHolder(NetworkInterface ni)
     {
         name = ni.getName();
-        if (common.LOG_NEW_INTERFACE)
+        if (IConst.LOG_NEW_INTERFACE)
             logger.info("New Interface : " + name + " ::: " + ni.getDisplayName());
         try
         {
@@ -109,7 +109,7 @@ public class NetworkInterfaceHolder
         good &= inetAddress != null;
         if (interfaceAddress != null)
         {
-            good &= interfaceAddress.isSiteLocalAddress() || !common.REQUEST_LOCAL_IP;
+            good &= interfaceAddress.isSiteLocalAddress() || !IConst.REQUEST_LOCAL_IP;
         } else
             good = false;
 

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import wefwefwe.common;
+import watchmen.statics.IConst;
 
 public class NetworkInterfaceWatcher extends Thread {
 	private final NetworkInterfaceParent parent;
@@ -76,7 +76,7 @@ public class NetworkInterfaceWatcher extends Thread {
 					}
 				}
 				if (countUsables == 1) {
-					if (common.LOG_HABEMUS_PAPAM)
+					if (IConst.LOG_HABEMUS_PAPAM)
 						logger.info("Habemus papam : " + theOneAndOnly.getName());
 					parent.habemusPapam();
 					searching = false;
