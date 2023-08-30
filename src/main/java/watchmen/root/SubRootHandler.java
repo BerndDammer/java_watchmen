@@ -1,4 +1,4 @@
-package watchmen.httpserver;
+package watchmen.root;
 
 import com.sun.net.httpserver.HttpHandler;
 

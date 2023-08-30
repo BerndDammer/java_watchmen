@@ -1,4 +1,4 @@
-package watchmen.httpserver;
+package watchmen.root;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -7,16 +7,17 @@ import java.util.List;
 
 import com.sun.net.httpserver.HttpServer;
 
-import watchmen.httphandler.CommandHandler;
-import watchmen.httphandler.DebugHandler;
-import watchmen.httphandler.FileEcho;
-import watchmen.httphandler.ResourceEcho;
-import watchmen.httphandler.ShowProcesses;
-import watchmen.httphandler.SnapHandler;
-import watchmen.httphandler.StringEcho;
 import watchmen.logging.LoggingInit;
 import watchmen.statics.IConst;
 import watchmen.statics.ListWatchedProcesses;
+import watchmen.subroothandler.CommandHandler;
+import watchmen.subroothandler.DebugHandler;
+import watchmen.subroothandler.FileEcho;
+import watchmen.subroothandler.ResourceEcho;
+import watchmen.subroothandler.ShowProcesses;
+import watchmen.subroothandler.SnapHandler;
+import watchmen.subroothandler.StartupPlotHandler;
+import watchmen.subroothandler.StringEcho;
 
 public class myHttpServer {
 
@@ -24,7 +25,7 @@ public class myHttpServer {
 	private final List<SubRootHandler> subHandlers = new LinkedList<>();
 
 	public myHttpServer() {
-		List<String> cmd = new LinkedList<>();
+//		List<String> cmd = new LinkedList<>();
 		final InetSocketAddress isa = new InetSocketAddress(IConst.HTTP_PORT);
 
 		final String logFileName = LoggingInit.forceClassLoadingAndGetLogName();
@@ -40,14 +41,14 @@ public class myHttpServer {
 //			cmd.add("-l");
 //			cmd.add("/var/log");
 //			myServer.createContext("/dirlogs", new CommandHandler(cmd));
-			add(new CommandHandler("List loggings", "/dirlogs", List.of("ls", "-l", "/var/log")));
+			add(new CommandHandler("List loggings", "/dirlogs", List.<String>of("ls", "-l", "/var/log")));
 
 //			cmd = new LinkedList<>();
 //			cmd.add("ls");
 //			cmd.add("-l");
 //			cmd.add("/var/run");
 //			myServer.createContext("/dirpids", new CommandHandler(cmd));
-			add(new CommandHandler("List process Id's", "/dirpids", List.of("ls", "-l", "/var/run")));
+			add(new CommandHandler("List process Id's", "/dirpids", List.<String>of("ls", "-l", "/var/run")));
 
 //			cmd = new LinkedList<>();
 //			cmd.add("ls");
@@ -61,7 +62,7 @@ public class myHttpServer {
 //			cmd.add("/bin/journalctl");
 //			cmd.add("-b");
 //			myServer.createContext("/journalctl", new CommandHandler(cmd));
-			add(new CommandHandler("show bootlog", "/journalctl", List.of("journalctl", "-b")));
+			add(new CommandHandler("show bootlog", "/journalctl", List.<String>of("journalctl", "-b")));
 
 //			cmd = new LinkedList<>();
 //			cmd.add("dmesg");
@@ -79,7 +80,7 @@ public class myHttpServer {
 //			cmd.add("-n");
 //			cmd.add("1");
 //			myServer.createContext("/top", new CommandHandler(cmd));
-			add(new CommandHandler("once top", "/top", List.of("top", "-b", "-n", "1")));
+			add(new CommandHandler("once top", "/top", List.<String>of("top", "-b", "-n", "1")));
 
 //			cmd = new LinkedList<>();
 //			cmd.add("date");
@@ -90,18 +91,19 @@ public class myHttpServer {
 //			cmd.add("ifconfig");
 //			cmd.add("-a");
 //			myServer.createContext("/ifconfig", new CommandHandler(cmd));
-			add(new CommandHandler("show network configuration", "/ifconfig", List.of("ifconfig", "-a" )));
-			add(new CommandHandler("show active servers", "/netstat", List.of("netstat", "-tan" )));
+			add(new CommandHandler("show network configuration", "/ifconfig", List.<String>of("ifconfig", "-a")));
+			add(new CommandHandler("show active servers", "/netstat", List.<String>of("netstat", "-tan")));
 
 			// ////////////////////////////////////////////////////////////
-			myServer.createContext("/networklog", new FileEcho(logFileName));
-			myServer.createContext("/showpids", new ShowProcesses(ListWatchedProcesses.getListWatchedProcesses()));
-			myServer.createContext("/snap", new SnapHandler());
+			add(new FileEcho("log of this server", "/networklog", logFileName));
+			add(new ShowProcesses("showpids", "/showpids", ListWatchedProcesses.getListWatchedProcesses()));
+			add(new SnapHandler("snap", "/snap"));
 
 			// ////////////////////////////////////////////////////////////////
-			myServer.createContext("/echo", new StringEcho("Hello Hello its nice to be here!"));
-			myServer.createContext("/logs", new ResourceEcho(getClass().getResource("logs.html")));
-			myServer.createContext("/debug", new DebugHandler());
+			add(new StringEcho("echo", "/echo", "Hello Hello its nice to be here!"));
+			add(new ResourceEcho("logs", "/logs", getClass().getResource("test.html")));
+			add(new DebugHandler("protocol test echo", "/debug"));
+			add(new StartupPlotHandler("startup plot", "/plot"));
 			// /////////////////////////////////
 
 			myServer.createContext("/", new RootHandler(subHandlers));

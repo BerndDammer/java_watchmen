@@ -1,4 +1,4 @@
-package watchmen.httphandler;
+package watchmen.subroothandler;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,14 +7,17 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
-public class SnapHandler implements HttpHandler
+import watchmen.root.SubRootHandler;
+import watchmen.util.StreamBuffer;
+
+public class SnapHandler extends SubRootHandler
 {
-    private StreamBuffer sb = new StreamBuffer();
+    private final StreamBuffer sb = new StreamBuffer();
 
-    public SnapHandler()
+    public SnapHandler(final String description, final String path)
     {
+    	super(description, path);
     }
 
     @Override

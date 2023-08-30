@@ -1,4 +1,4 @@
-package watchmen.httphandler;
+package watchmen.subroothandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +9,8 @@ import java.util.logging.Logger;
 
 import com.sun.net.httpserver.HttpExchange;
 
-import watchmen.httpserver.SubRootHandler;
+import watchmen.root.SubRootHandler;
+import watchmen.util.StreamBuffer;
 
 public class CommandHandler extends SubRootHandler {
 	private static final Logger logger = Logger.getLogger(CommandHandler.class.getName());

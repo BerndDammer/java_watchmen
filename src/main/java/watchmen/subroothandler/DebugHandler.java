@@ -1,23 +1,21 @@
-package watchmen.httphandler;
+package watchmen.subroothandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.logging.Logger;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
-@SuppressWarnings("restriction")
-public class DebugHandler implements HttpHandler
+import watchmen.root.SubRootHandler;
+import watchmen.util.StreamBuffer;
+
+public class DebugHandler extends SubRootHandler
 {
-    private final Logger logger = Logger.getAnonymousLogger();
-
     private final StreamBuffer sb = new StreamBuffer();
 
-    public DebugHandler()
+    public DebugHandler(final String description, final String path)
     {
-
+    	super(description, path);
     }
 
     @Override

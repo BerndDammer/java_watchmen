@@ -1,4 +1,4 @@
-package watchmen.httphandler;
+package watchmen.util;
 
 import java.io.IOException;
 import java.io.InputStream;

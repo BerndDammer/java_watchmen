@@ -1,4 +1,4 @@
-package watchmen.httphandler;
+package watchmen.subroothandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,16 +6,19 @@ import java.io.OutputStream;
 import java.net.URL;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
-public class ResourceEcho extends MiMeTypes implements HttpHandler
+import watchmen.root.SubRootHandler;
+import watchmen.util.MiMeTypes;
+import watchmen.util.StreamBuffer;
+
+public class ResourceEcho extends SubRootHandler implements MiMeTypes
 {
-
     private final StreamBuffer sb = new StreamBuffer();
     private final URL resourceUrl;
 
-    public ResourceEcho(URL resourceUrl)
+    public ResourceEcho(final String description, final String path, URL resourceUrl)
     {
+    	super(description, path);
         this.resourceUrl = resourceUrl;
     }
 

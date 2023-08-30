@@ -1,8 +1,8 @@
-package watchmen.httphandler;
+package watchmen.util;
 
 import com.sun.net.httpserver.HttpExchange;
 
-public class MiMeTypes
+public interface MiMeTypes
 {
     static final String MIME_DEFAULT = "text/plain";
     static final String[][] MIME_TYPES = new String[][]
@@ -23,7 +23,7 @@ public class MiMeTypes
 
     // /////////////////////////////////////////////////////////////////
     // http://wiki.selfhtml.org/wiki/Referenz:MIME-Typen
-    void addContentType(HttpExchange he, String filename)
+    default void addContentType(HttpExchange he, String filename)
     {
         String result = null;
         for (String[] line : MIME_TYPES)

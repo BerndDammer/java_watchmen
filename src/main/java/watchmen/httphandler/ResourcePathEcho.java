@@ -10,7 +10,11 @@ import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-public class ResourcePathEcho extends MiMeTypes implements HttpHandler
+import watchmen.root.SubRootHandler;
+import watchmen.util.MiMeTypes;
+import watchmen.util.StreamBuffer;
+
+public class ResourcePathEcho extends SubRootHandler implements HttpHandler, MiMeTypes
 {
     // Examples
     // http://www.programcreek.com/java-api-examples/index.php?api=com.sun.net.httpserver.HttpServer
@@ -20,8 +24,9 @@ public class ResourcePathEcho extends MiMeTypes implements HttpHandler
     // private final StreamBuffer req = new StreamBuffer();
     private final Class<?> rootReferenceClass;
 
-    public ResourcePathEcho(Class<?> rootReferenceClass)
+    public ResourcePathEcho(final String description, final String path, final Class<?> rootReferenceClass)
     {
+    	super(description, path);
         this.rootReferenceClass = rootReferenceClass;
     }
 
