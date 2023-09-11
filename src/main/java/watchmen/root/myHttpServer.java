@@ -25,7 +25,6 @@ public class myHttpServer {
 	private final List<SubRootHandler> subHandlers = new LinkedList<>();
 
 	public myHttpServer() {
-//		List<String> cmd = new LinkedList<>();
 		final InetSocketAddress isa = new InetSocketAddress(IConst.HTTP_PORT);
 
 		final String logFileName = LoggingInit.forceClassLoadingAndGetLogName();
@@ -34,67 +33,18 @@ public class myHttpServer {
 		try {
 			myServer = HttpServer.create(isa, 0);
 
-//            myServer.createContext("/", new ResourcePathEcho(www2_root.class));
-			// /
-//			cmd = new LinkedList<>();
-//			cmd.add("ls");
-//			cmd.add("-l");
-//			cmd.add("/var/log");
-//			myServer.createContext("/dirlogs", new CommandHandler(cmd));
 			add(new CommandHandler("List loggings", "/dirlogs", List.<String>of("ls", "-l", "/var/log")));
-
-//			cmd = new LinkedList<>();
-//			cmd.add("ls");
-//			cmd.add("-l");
-//			cmd.add("/var/run");
-//			myServer.createContext("/dirpids", new CommandHandler(cmd));
 			add(new CommandHandler("List process Id's", "/dirpids", List.<String>of("ls", "-l", "/var/run")));
-
-//			cmd = new LinkedList<>();
-//			cmd.add("ls");
-//			cmd.add("-l");
-//			cmd.add("/spare");
-//			myServer.createContext("/dirspare", new CommandHandler(cmd));
-
-			// ///////////////////////////////////////////////////////////////
-//			List.of("journalctl", "-b");
-//			cmd = new LinkedList<>();
-//			cmd.add("/bin/journalctl");
-//			cmd.add("-b");
-//			myServer.createContext("/journalctl", new CommandHandler(cmd));
 			add(new CommandHandler("show bootlog", "/journalctl", List.<String>of("journalctl", "-b")));
-
-//			cmd = new LinkedList<>();
-//			cmd.add("dmesg");
-//			myServer.createContext("/dmesg", new CommandHandler(cmd));
 			add(new CommandHandler("dmesg"));
-
-//			cmd = new LinkedList<>();
-//			cmd.add("ps");
-//			myServer.createContext("/ps", new CommandHandler(cmd));
 			add(new CommandHandler("ps"));
-
-//			cmd = new LinkedList<>();
-//			cmd.add("top");
-//			cmd.add("-b");
-//			cmd.add("-n");
-//			cmd.add("1");
-//			myServer.createContext("/top", new CommandHandler(cmd));
 			add(new CommandHandler("once top", "/top", List.<String>of("top", "-b", "-n", "1")));
-
-//			cmd = new LinkedList<>();
-//			cmd.add("date");
-//			myServer.createContext("/date", new CommandHandler(cmd));
 			add(new CommandHandler("date"));
-
-//			cmd = new LinkedList<>();
-//			cmd.add("ifconfig");
-//			cmd.add("-a");
-//			myServer.createContext("/ifconfig", new CommandHandler(cmd));
 			add(new CommandHandler("show network configuration", "/ifconfig", List.<String>of("ifconfig", "-a")));
 			add(new CommandHandler("show active servers", "/netstat", List.<String>of("netstat", "-tan")));
+			add(new CommandHandler("arp", "/arp", List.<String>of("arp", "-a")));
+			add(new CommandHandler("traceroute", "/traceroute", List.<String>of("traceroute", "openwrt.org")));
 
-			// ////////////////////////////////////////////////////////////
 			add(new FileEcho("log of this server", "/networklog", logFileName));
 			add(new ShowProcesses("showpids", "/showpids", ListWatchedProcesses.getListWatchedProcesses()));
 			add(new SnapHandler("snap", "/snap"));

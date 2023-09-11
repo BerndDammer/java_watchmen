@@ -3,6 +3,7 @@ package watchmen.subroothandler;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -27,7 +28,7 @@ public class SnapHandler extends SubRootHandler
         sb.sswitch();
         he.getResponseHeaders().add("Content-Type", "application/octet-stream");
         he.getResponseHeaders().add("Content-Disposition", "attachment; filename=crashlog.zip");
-        he.sendResponseHeaders(200, sb.getSize());
+        he.sendResponseHeaders(HttpURLConnection.HTTP_OK, sb.getSize());
         OutputStream os = he.getResponseBody();
         sb.drainToOutputStream(os);
         os.close();

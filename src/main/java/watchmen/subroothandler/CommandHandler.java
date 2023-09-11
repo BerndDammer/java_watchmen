@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -56,7 +57,7 @@ public class CommandHandler extends SubRootHandler {
 		}
 		sb.sswitch();
 		he.getResponseHeaders().add("Content-Type", "text/plain");
-		he.sendResponseHeaders(200, sb.getSize());
+		he.sendResponseHeaders(HttpURLConnection.HTTP_OK, sb.getSize());
 		OutputStream os = he.getResponseBody();
 		sb.drainToOutputStream(os);
 		os.close();

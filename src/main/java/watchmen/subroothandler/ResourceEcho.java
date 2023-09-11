@@ -3,6 +3,7 @@ package watchmen.subroothandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -39,7 +40,7 @@ public class ResourceEcho extends SubRootHandler implements MiMeTypes
         }
         
         sb.sswitch();
-        he.sendResponseHeaders(200, sb.getSize());
+        he.sendResponseHeaders(HttpURLConnection.HTTP_OK, sb.getSize());
         OutputStream os = he.getResponseBody();
         sb.drainToOutputStream(os);
         os.close();

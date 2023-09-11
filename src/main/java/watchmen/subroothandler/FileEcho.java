@@ -3,6 +3,7 @@ package watchmen.subroothandler;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -32,7 +33,7 @@ public class FileEcho extends SubRootHandler {
 
 		sb.sswitch();
 		he.getResponseHeaders().add("Content-Type", "text/plain");
-		he.sendResponseHeaders(200, sb.getSize());
+		he.sendResponseHeaders(HttpURLConnection.HTTP_OK, sb.getSize());
 		OutputStream os = he.getResponseBody();
 		sb.drainToOutputStream(os);
 		os.close();

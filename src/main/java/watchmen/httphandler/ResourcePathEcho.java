@@ -3,6 +3,7 @@ package watchmen.httphandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.logging.Logger;
@@ -56,7 +57,7 @@ public class ResourcePathEcho extends SubRootHandler implements HttpHandler, MiM
         sb.sswitch();
         int answerSize = sb.getSize();
         logger.info("answerSize : " + answerSize);
-        he.sendResponseHeaders(200, answerSize);
+        he.sendResponseHeaders(HttpURLConnection.HTTP_OK, answerSize);
         OutputStream os = he.getResponseBody();
         sb.drainToOutputStream(os);
         os.close();

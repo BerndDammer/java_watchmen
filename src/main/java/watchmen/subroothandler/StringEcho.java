@@ -2,6 +2,7 @@ package watchmen.subroothandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -21,7 +22,7 @@ public class StringEcho extends SubRootHandler {
 		he.getResponseHeaders().add("Content-Type", "text/plain");
 
 		final byte[] b = message.getBytes();
-		he.sendResponseHeaders(200, b.length);
+		he.sendResponseHeaders(HttpURLConnection.HTTP_OK, b.length);
 		OutputStream os = he.getResponseBody();
 		os.write(b);
 		os.close();

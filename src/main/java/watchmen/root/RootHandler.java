@@ -2,6 +2,7 @@ package watchmen.root;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -45,7 +46,7 @@ public class RootHandler implements HttpHandler {
 		byte[] answer = stringBuilder.toString().getBytes();
 
 		exchange.getResponseHeaders().add("Content-Type", "text/html");
-		exchange.sendResponseHeaders(200, answer.length);
+		exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, answer.length);
 
 		final OutputStream os = exchange.getResponseBody();
 		os.write(stringBuilder.toString().getBytes());
