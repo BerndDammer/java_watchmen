@@ -33,6 +33,7 @@ public class myHttpServer {
 		try {
 			myServer = HttpServer.create(isa, 0);
 
+			add(new CommandHandler("apps status", "/appstats", List.<String>of("systemctl", "status", "kiosk.service", "watchmen.service")));
 			add(new CommandHandler("List loggings", "/dirlogs", List.<String>of("ls", "-l", "/var/log")));
 			add(new CommandHandler("List process Id's", "/dirpids", List.<String>of("ls", "-l", "/var/run")));
 			add(new CommandHandler("show bootlog", "/journalctl", List.<String>of("journalctl", "-b")));
