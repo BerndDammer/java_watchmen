@@ -1,5 +1,5 @@
 git add .
-git commit -m "serial interfaces, defive ID"
+git commit -m "list serial ports"
 git push
 git push --tags
 read

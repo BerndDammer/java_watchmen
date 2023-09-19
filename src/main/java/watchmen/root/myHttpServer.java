@@ -37,13 +37,21 @@ public class myHttpServer {
 					List.<String>of("systemctl", "status", "kiosk.service", "watchmen.service")));
 			add(new CommandHandler("serial numbers of picoprobes", "/picoprobes", List.<String>of("lsusb", "-vvv")));
 			add(new CommandHandler("pi version 1", "/piv1",
-					List.<String>of("cat", "/sys/firmware/devicetree/base/model", "zena.cfg")));
+					List.<String>of("cat", "/sys/firmware/devicetree/base/model")));
 			add(new CommandHandler("pi version 2", "/piv2", List.<String>of("cat", "/proc/cpuinfo")));
 //			add(new CommandHandler("pi version 4", "/piv3",
 //					List.<String>of("grep", "-E", "\"Model|Revision\"", "/proc/cpuinfo")));
 			add(new CommandHandler("pi version 3", "/piv4", List.<String>of("vcgencmd", "otp_dump")));
+/////////////////////
 			add(new CommandHandler("show serial interfaces", "/showtty",
 					List.<String>of("sudo", "find", "/", "-wholename", "/dev/*tty*")));
+
+			add(new CommandHandler("show serial interfaces2", "/showtty2",
+					List.<String>of("sudo", "ls", "-hl", "/dev/*tty*")));
+
+			add(new CommandHandler("show serial interfaces3", "/showtty3",
+					List.<String>of("tree", "-P", "*tty*", "-L", "1", "/dev")));
+///////////////////////////////////			
 			add(new CommandHandler("List loggings", "/dirlogs", List.<String>of("ls", "-l", "/var/log")));
 			add(new CommandHandler("List process Id's", "/dirpids", List.<String>of("ls", "-l", "/var/run")));
 			add(new CommandHandler("show bootlog", "/journalctl", List.<String>of("journalctl", "-b")));

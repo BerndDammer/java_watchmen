@@ -19,7 +19,7 @@ public class CommandHandler extends SubRootHandler {
 	private final List<String> command;
 	private final ProcessBuilder pb;
 
-	private StreamBuffer sb = new StreamBuffer();
+	private final StreamBuffer sb = new StreamBuffer();
 
 	public CommandHandler(final String allinone) {
 		this(allinone, "/" + allinone, List.of(allinone));
@@ -32,23 +32,23 @@ public class CommandHandler extends SubRootHandler {
 	}
 
 	@Override
-	public void handle(HttpExchange he) throws IOException {
+	public void handle(final HttpExchange he) throws IOException {
 		try {
-			Process pp = pb.start();
+			final Process pp = pb.start();
 			final InputStream consoleOutput = pp.getInputStream();
 			final InputStream consoleErrorOutput = pp.getErrorStream();
 
 			sb.reset();
 			final PrintStream p = sb.getPrintStream();
 			p.println("---- Executing command --- " + command + " ----");
-			p.println("****** OUTPUT ******");
+			p.println("*********************************************** OUTPUT **************************************");
 			p.flush();
 			sb.appendFromInputStream(consoleOutput);
-			p.println("AAAA OUTPUT AAAAA");
-			p.println("****** ERROR ******");
+			p.println("**********************************************************************************************");
+			p.println("************************************************* ERROR *************************************");
 			p.flush();
 			sb.appendFromInputStream(consoleErrorOutput);
-			p.println("END  ERROR END");
+			p.println("**********************************************************************************************");
 			p.close();
 		} catch (IOException e) {
 			logger.info(e.getMessage());
@@ -56,9 +56,11 @@ public class CommandHandler extends SubRootHandler {
 			sb.drainError(e);
 		}
 		sb.sswitch();
+		// WORKAROUND : avoid downloading
+		he.getResponseHeaders().add("X-Content-Type-Options", "nosniff");
 		he.getResponseHeaders().add("Content-Type", "text/plain");
 		he.sendResponseHeaders(HttpURLConnection.HTTP_OK, sb.getSize());
-		OutputStream os = he.getResponseBody();
+		final OutputStream os = he.getResponseBody();
 		sb.drainToOutputStream(os);
 		os.close();
 	}
